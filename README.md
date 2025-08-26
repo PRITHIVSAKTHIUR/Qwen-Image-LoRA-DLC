@@ -6,13 +6,9 @@ https://github.com/user-attachments/assets/ae5e8d2e-6ff3-40e8-9a52-f650edb6f370
 
 ### Image Examples
 
-| ![Image 1](https://cdn-uploads.huggingface.co/production/uploads/65bb837dbfb878f46c77de4c/SyJm8LHzDJvpKWiqUOUeD.png) | ![Image 2](https://cdn-uploads.huggingface.co/production/uploads/65bb837dbfb878f46c77de4c/iELVSR9rCMsvATP9ivAil.png) |
-|------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| ![Image 3](https://cdn-uploads.huggingface.co/production/uploads/65bb837dbfb878f46c77de4c/UPeWsiPLYg9nWt0Lks4j2.png) | ![Image 4](https://cdn-uploads.huggingface.co/production/uploads/65bb837dbfb878f46c77de4c/sLbC26jv9lQqpTtTnWmfO.png) |
-| ![Image 1](https://cdn-uploads.huggingface.co/production/uploads/65bb837dbfb878f46c77de4c/SyJm8LHzDJvpKWiqUOUeD.png) | ![Image 2](https://cdn-uploads.huggingface.co/production/uploads/65bb837dbfb878f46c77de4c/iELVSR9rCMsvATP9ivAil.png) |
-|------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| ![Image 3](https://cdn-uploads.huggingface.co/production/uploads/65bb837dbfb878f46c77de4c/UPeWsiPLYg9nWt0Lks4j2.png) | ![Image 4](https://cdn-uploads.huggingface.co/production/uploads/65bb837dbfb878f46c77de4c/sLbC26jv9lQqpTtTnWmfO.png) |
-
+| ![Img1](https://cdn-uploads.huggingface.co/production/uploads/65bb837dbfb878f46c77de4c/SyJm8LHzDJvpKWiqUOUeD.png) | ![Img2](https://cdn-uploads.huggingface.co/production/uploads/65bb837dbfb878f46c77de4c/iELVSR9rCMsvATP9ivAil.png) |
+|---|---|
+| ![Img3](https://cdn-uploads.huggingface.co/production/uploads/65bb837dbfb878f46c77de4c/UPeWsiPLYg9nWt0Lks4j2.png) | ![Img4](https://cdn-uploads.huggingface.co/production/uploads/65bb837dbfb878f46c77de4c/sLbC26jv9lQqpTtTnWmfO.png) |
 
 ## Features
 
