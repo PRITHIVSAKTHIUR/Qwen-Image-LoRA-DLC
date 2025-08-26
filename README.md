@@ -2,6 +2,8 @@
 
 A powerful Gradio application for generating images using the Qwen-Image model with various LoRA (Low-Rank Adaptation) styles. This tool provides both speed-optimized and quality-focused generation modes with a curated collection of artistic styles.
 
+https://github.com/user-attachments/assets/ae5e8d2e-6ff3-40e8-9a52-f650edb6f370
+
 ## Features
 
 ### Core Functionality
