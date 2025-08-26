@@ -2,10 +2,6 @@
 
 A powerful Gradio application for generating images using the Qwen-Image model with various LoRA (Low-Rank Adaptation) styles. This tool provides both speed-optimized and quality-focused generation modes with a curated collection of artistic styles.
 
-> Links
-> - **GitHub Repository**: https://github.com/PRITHIVSAKTHIUR/Qwen-Image-LoRA-DLC
-> - **Hugging Face Space**: https://huggingface.co/spaces/prithivMLmods/Qwen-Image-LoRA-DLC
-
 ## Features
 
 ### Core Functionality
@@ -15,6 +11,11 @@ A powerful Gradio application for generating images using the Qwen-Image model w
 - **Multiple Aspect Ratios**: Support for 1:1, 16:9, 9:16, 4:3, 3:4, 3:2, and 2:3 ratios
 - **Custom LoRA Support**: Load any Qwen-Image compatible LoRA from Hugging Face
 - **Advanced Controls**: Fine-tune generation with guidance scale, steps, seed, and LoRA scaling
+
+> Links
+> - **GitHub Repository**: https://github.com/PRITHIVSAKTHIUR/Qwen-Image-LoRA-DLC
+> - **Hugging Face Space**: https://huggingface.co/spaces/prithivMLmods/Qwen-Image-LoRA-DLC
+
 
 ### Pre-loaded LoRA Styles
 The application comes with a curated collection of artistic styles:
