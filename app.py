@@ -44,13 +44,6 @@ print("Using device:", device)
 loras = [
     # Sample Qwen-compatible LoRAs
     {
-        "image": "https://huggingface.co/damnthatai/Game_Boy_Camera_Pixel_Style_Qwen/resolve/main/images/20250818090201_Qwen8s_00001_.jpg",
-        "title": "Camera Pixel Style",
-        "repo": "damnthatai/Game_Boy_Camera_Pixel_Style_Qwen",
-        "weights": "g4m3b0yc4m3r4_qwen.safetensors",
-        "trigger_word": "g4m3b0yc4m3r4, grayscale, pixel photo"
-    },
-    {
         "image": "https://huggingface.co/prithivMLmods/Qwen-Image-Studio-Realism/resolve/main/images/2.png",
         "title": "Studio Realism",
         "repo": "prithivMLmods/Qwen-Image-Studio-Realism",
@@ -65,11 +58,25 @@ loras = [
         "trigger_word": "Sketch Smudge"
     },
     {
+        "image": "https://huggingface.co/Shakker-Labs/AWPortrait-QW/resolve/main/images/08fdaf6b644b61136340d5c908ca37993e47f34cdbe2e8e8251c4c72.jpg",
+        "title": "AWPortrait QW",
+        "repo": "Shakker-Labs/AWPortrait-QW",
+        "weights": "AWPortrait-QW_1.0.safetensors",
+        "trigger_word": "Portrait"
+    },
+    {
         "image": "https://huggingface.co/prithivMLmods/Qwen-Image-Anime-LoRA/resolve/main/images/1.png",
         "title": "Qwen Anime",
         "repo": "prithivMLmods/Qwen-Image-Anime-LoRA",
         "weights": "qwen-anime.safetensors",
         "trigger_word": "Qwen Anime"
+    },
+    {
+        "image": "https://huggingface.co/flymy-ai/qwen-image-realism-lora/resolve/main/assets/flymy_realism.png",
+        "title": "Image Realism",
+        "repo": "flymy-ai/qwen-image-realism-lora",
+        "weights": "flymy_realism.safetensors",
+        "trigger_word": "Super Realism Portrait"
     },
     {
         "image": "https://huggingface.co/prithivMLmods/Qwen-Image-Fragmented-Portraiture/resolve/main/images/3.png",
@@ -86,13 +93,6 @@ loras = [
         "trigger_word": "Synthetic Face"
     },
     {
-        "image": "https://huggingface.co/Tomechi02/Macne_style_enahncer/resolve/main/images/pixai-1913880604374308947-2.png",
-        "title": "Macne Style Enahncer",
-        "repo": "Tomechi02/Macne_style_enahncer",
-        "weights": "Macne_Style_enhancer.safetensors",
-        "trigger_word": "macloid, gomoku"
-    },
-    {
         "image": "https://huggingface.co/itspoidaman/qwenglitch/resolve/main/images/GyZTwJIbkAAhS4h.jpeg",
         "title": "Qwen Glitch",
         "repo": "itspoidaman/qwenglitch",
@@ -105,13 +105,6 @@ loras = [
         "repo": "alfredplpl/qwen-image-modern-anime-lora",
         "weights": "lora.safetensors",
         "trigger_word": "Japanese modern anime style"
-    },
-    {
-        "image": "https://huggingface.co/damnthatai/Apple_QuickTake_150_Digital_Camera_Qwen/resolve/main/images/20250817084713_Qwen.jpg",
-        "title": "Apple QuickTake 150 Digital Camera",
-        "repo": "damnthatai/Apple_QuickTake_150_Digital_Camera_Qwen",
-        "weights": "quicktake150style_qwen.safetensors",
-        "trigger_word": "quicktake150style"
     },
 ]
 
@@ -210,7 +203,7 @@ def adjust_generation_mode(speed_mode):
     if speed_mode == "Fast (8 steps)":
         return gr.update(value="Fast mode selected - 8 steps with Lightning LoRA"), 8, 1.0
     else: 
-        return gr.update(value="Base mode selected - 48 steps for best quality"), 48, 4.0
+        return gr.update(value="Base mode selected - 50 steps for best quality"), 50, 4.0
 
 @spaces.GPU(duration=100)
 def create_image(prompt_mash, steps, seed, cfg_scale, width, height, lora_scale, negative_prompt=""):
@@ -284,8 +277,10 @@ def process_adapter_generation(prompt, cfg_scale, steps, selected_index, randomi
             pipe.load_lora_weights(
                 lora_path, 
                 weight_name=weight_name, 
-                low_cpu_mem_usage=True
+                low_cpu_mem_usage=True,
+                adapter_name="style"
             )
+            pipe.set_adapters(["style"], adapter_weights=[lora_scale])
                 
     # Set random seed for reproducibility
     with Timer("Randomizing seed"):
@@ -438,7 +433,7 @@ css = '''
 #speed_status{padding: .5em; border-radius: 5px; margin: 1em 0}
 '''
 
-with gr.Blocks(theme="bethecloud/storj_theme", css=css, delete_cache=(120, 120)) as app:
+with gr.Blocks(theme="bethecloud/storj_theme", css=css, delete_cache=(240, 240)) as app:
     title = gr.HTML("""<h1>Qwen Image LoRA DLC⛵</h1>""", elem_id="title")
     selected_index = gr.State(None)
     
@@ -460,28 +455,28 @@ with gr.Blocks(theme="bethecloud/storj_theme", css=css, delete_cache=(120, 120))
                 show_share_button=False
             )
             with gr.Group():
-                custom_lora = gr.Textbox(label="Custom LoRA", info="LoRA Hugging Face path", placeholder="username/lora-model-name")
+                custom_lora = gr.Textbox(label="Custom LoRA", placeholder="username/lora-model-name")
                 gr.Markdown("[Check Qwen-Image LoRAs](https://huggingface.co/models?other=base_model:adapter:Qwen/Qwen-Image)", elem_id="lora_list")
             custom_lora_info = gr.HTML(visible=False)
             custom_lora_button = gr.Button("Remove custom LoRA", visible=False)
         
         with gr.Column():
-            result = gr.Image(label="Generated Image")
+            result = gr.Image(label="Generated Image", format="png")
 
             with gr.Row():
                 aspect_ratio = gr.Dropdown(
                     label="Aspect Ratio",
                     choices=["1:1", "16:9", "9:16", "4:3", "3:4", "3:2", "2:3"],
-                    value="1:1"
+                    value="3:2"
                     )
             with gr.Row():
                 speed_mode = gr.Dropdown(
                     label="Output Mode",
-                    choices=["Fast (8 steps)", "Base (48 steps)"],
-                    value="Base (48 steps)",
+                    choices=["Fast (8 steps)", "Base (50 steps)"],
+                    value="Base (50 steps)",
                 )
             
-            speed_status = gr.Markdown("Base mode selected", elem_id="speed_status")
+            speed_status = gr.Markdown("Base mode selected - 50 steps for best quality", elem_id="speed_status")
 
     with gr.Row():
         with gr.Accordion("Advanced Settings", open=False):
@@ -500,7 +495,7 @@ with gr.Blocks(theme="bethecloud/storj_theme", css=css, delete_cache=(120, 120))
                         minimum=4, 
                         maximum=50, 
                         step=1, 
-                        value=48,
+                        value=50,
                         info="Automatically set by speed mode"
                     )
                 
