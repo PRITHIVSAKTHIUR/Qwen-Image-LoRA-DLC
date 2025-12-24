@@ -276,7 +276,7 @@ def adjust_generation_mode(speed_mode):
     else: 
         return gr.update(value="Base mode selected - 50 steps for best quality"), 50, 4.0
 
-@spaces.GPU(duration=100)
+@spaces.GPU(duration=90)
 def create_image(prompt_mash, steps, seed, cfg_scale, width, height, lora_scale, negative_prompt=""):
     pipe.to("cuda")
     generator = torch.Generator(device="cuda").manual_seed(seed)
@@ -295,7 +295,7 @@ def create_image(prompt_mash, steps, seed, cfg_scale, width, height, lora_scale,
         
     return image
 
-@spaces.GPU(duration=100)
+@spaces.GPU(duration=90)
 def process_adapter_generation(prompt, cfg_scale, steps, selected_index, randomize_seed, seed, aspect_ratio, lora_scale, speed_mode, progress=gr.Progress(track_tqdm=True)):
     if selected_index is None:
         raise gr.Error("You must select a LoRA before proceeding.")
@@ -608,3 +608,4 @@ with gr.Blocks(delete_cache=(240, 240)) as app:
 
 app.queue()
 app.launch(theme=orange_red_theme, css=css, mcp_server=True, ssr_mode=False, show_error=True)
+
