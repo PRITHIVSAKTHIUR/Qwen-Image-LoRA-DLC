@@ -22,11 +22,82 @@ from huggingface_hub import (
 from diffusers.utils import load_image
 import requests
 from urllib.parse import urlparse
+from typing import Iterable
 import tempfile
 import shutil
 import uuid
 import zipfile
 
+from gradio.themes import Soft
+from gradio.themes.utils import colors, fonts, sizes
+
+colors.orange_red = colors.Color(
+    name="orange_red",
+    c50="#FFF0E5",
+    c100="#FFE0CC",
+    c200="#FFC299",
+    c300="#FFA366",
+    c400="#FF8533",
+    c500="#FF4500",
+    c600="#E63E00",
+    c700="#CC3700",
+    c800="#B33000",
+    c900="#992900",
+    c950="#802200",
+)
+
+class OrangeRedTheme(Soft):
+    def __init__(
+        self,
+        *,
+        primary_hue: colors.Color | str = colors.gray,
+        secondary_hue: colors.Color | str = colors.orange_red, # Use the new color
+        neutral_hue: colors.Color | str = colors.slate,
+        text_size: sizes.Size | str = sizes.text_lg,
+        font: fonts.Font | str | Iterable[fonts.Font | str] = (
+            fonts.GoogleFont("Outfit"), "Arial", "sans-serif",
+        ),
+        font_mono: fonts.Font | str | Iterable[fonts.Font | str] = (
+            fonts.GoogleFont("IBM Plex Mono"), "ui-monospace", "monospace",
+        ),
+    ):
+        super().__init__(
+            primary_hue=primary_hue,
+            secondary_hue=secondary_hue,
+            neutral_hue=neutral_hue,
+            text_size=text_size,
+            font=font,
+            font_mono=font_mono,
+        )
+        super().set(
+            background_fill_primary="*primary_50",
+            background_fill_primary_dark="*primary_900",
+            body_background_fill="linear-gradient(135deg, *primary_200, *primary_100)",
+            body_background_fill_dark="linear-gradient(135deg, *primary_900, *primary_800)",
+            button_primary_text_color="white",
+            button_primary_text_color_hover="white",
+            button_primary_background_fill="linear-gradient(90deg, *secondary_500, *secondary_600)",
+            button_primary_background_fill_hover="linear-gradient(90deg, *secondary_600, *secondary_700)",
+            button_primary_background_fill_dark="linear-gradient(90deg, *secondary_600, *secondary_700)",
+            button_primary_background_fill_hover_dark="linear-gradient(90deg, *secondary_500, *secondary_600)",
+            button_secondary_text_color="black",
+            button_secondary_text_color_hover="white",
+            button_secondary_background_fill="linear-gradient(90deg, *primary_300, *primary_300)",
+            button_secondary_background_fill_hover="linear-gradient(90deg, *primary_400, *primary_400)",
+            button_secondary_background_fill_dark="linear-gradient(90deg, *primary_500, *primary_600)",
+            button_secondary_background_fill_hover_dark="linear-gradient(90deg, *primary_500, *primary_500)",
+            slider_color="*secondary_500",
+            slider_color_dark="*secondary_600",
+            block_title_text_weight="600",
+            block_border_width="3px",
+            block_shadow="*shadow_drop_lg",
+            button_primary_shadow="*shadow_drop_lg",
+            button_large_padding="11px",
+            color_accent_soft="*primary_100",
+            block_label_background_fill="*primary_200",
+        )
+
+orange_red_theme = OrangeRedTheme()
 
 # META: CUDA_CHECK / GPU_INFO
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -433,7 +504,7 @@ css = '''
 #speed_status{padding: .5em; border-radius: 5px; margin: 1em 0}
 '''
 
-with gr.Blocks(theme="bethecloud/storj_theme", css=css, delete_cache=(240, 240)) as app:
+with gr.Blocks(delete_cache=(240, 240)) as app:
     title = gr.HTML("""<h1>Qwen Image LoRA DLC⛵</h1>""", elem_id="title")
     selected_index = gr.State(None)
     
@@ -452,7 +523,7 @@ with gr.Blocks(theme="bethecloud/storj_theme", css=css, delete_cache=(240, 240))
                 allow_preview=False,
                 columns=3,
                 elem_id="gallery",
-                show_share_button=False
+                #show_share_button=False
             )
             with gr.Group():
                 custom_lora = gr.Textbox(label="Custom LoRA", placeholder="username/lora-model-name")
@@ -536,4 +607,4 @@ with gr.Blocks(theme="bethecloud/storj_theme", css=css, delete_cache=(240, 240))
     )
 
 app.queue()
-app.launch(share=False, ssr_mode=False, show_error=True)
+app.launch(theme=orange_red_theme, css=css, mcp_server=True, ssr_mode=False, show_error=True)
